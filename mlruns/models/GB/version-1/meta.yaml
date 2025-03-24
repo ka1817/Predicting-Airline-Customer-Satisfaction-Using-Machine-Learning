@@ -1,0 +1,14 @@
+aliases: []
+creation_timestamp: 1742797996698
+current_stage: None
+description: ''
+last_updated_timestamp: 1742797996698
+name: GB
+run_id: 045c9d7480cd42e992671c5b7d0de1bb
+run_link: ''
+source: mlflow-artifacts:/941998266166468447/045c9d7480cd42e992671c5b7d0de1bb/artifacts/best_model
+status: READY
+status_message: null
+storage_location: mlflow-artifacts:/941998266166468447/045c9d7480cd42e992671c5b7d0de1bb/artifacts/best_model
+user_id: null
+version: 1

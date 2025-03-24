@@ -1,0 +1,3 @@
+[('ohe', OneHotEncoder(handle_unknown='ignore', sparse_output=False), [0, 1, 3, 4]), ('ordinal', OrdinalEncoder(categories=[['No Delay', 'Short Delay', 'Moderate Delay',
+                            'Long Delay'],
+                           ['Poor', 'Average', 'Good', 'Excellent']]), [6, 7])]

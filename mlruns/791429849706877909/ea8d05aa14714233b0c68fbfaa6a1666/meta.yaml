@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/791429849706877909/ea8d05aa14714233b0c68fbfaa6a1666/artifacts
+end_time: 1742797800365
+entry_point_name: ''
+experiment_id: '791429849706877909'
+lifecycle_stage: active
+run_id: ea8d05aa14714233b0c68fbfaa6a1666
+run_name: flawless-snipe-978
+run_uuid: ea8d05aa14714233b0c68fbfaa6a1666
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1742797226223
+status: 3
+tags: []
+user_id: saipr

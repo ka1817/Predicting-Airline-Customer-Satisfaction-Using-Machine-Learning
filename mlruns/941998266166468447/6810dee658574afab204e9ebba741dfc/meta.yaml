@@ -1,0 +1,16 @@
+artifact_uri: mlflow-artifacts:/941998266166468447/6810dee658574afab204e9ebba741dfc/artifacts
+deleted_time: 1742798180261
+end_time: 1742796392300
+entry_point_name: ''
+experiment_id: '941998266166468447'
+lifecycle_stage: deleted
+run_id: 6810dee658574afab204e9ebba741dfc
+run_name: powerful-mouse-525
+run_uuid: 6810dee658574afab204e9ebba741dfc
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1742796152810
+status: 4
+tags: []
+user_id: saipr

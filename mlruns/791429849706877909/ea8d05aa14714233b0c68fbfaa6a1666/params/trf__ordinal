@@ -1,0 +1,3 @@
+OrdinalEncoder(categories=[['No Delay', 'Short Delay', 'Moderate Delay',
+                            'Long Delay'],
+                           ['Poor', 'Average', 'Good', 'Excellent']])

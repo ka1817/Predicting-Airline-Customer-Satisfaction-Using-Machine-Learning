@@ -1,0 +1,14 @@
+aliases: []
+creation_timestamp: 1742797981583
+current_stage: None
+description: ''
+last_updated_timestamp: 1742797981583
+name: RFC
+run_id: ea8d05aa14714233b0c68fbfaa6a1666
+run_link: ''
+source: mlflow-artifacts:/791429849706877909/ea8d05aa14714233b0c68fbfaa6a1666/artifacts/best_rf_model
+status: READY
+status_message: null
+storage_location: mlflow-artifacts:/791429849706877909/ea8d05aa14714233b0c68fbfaa6a1666/artifacts/best_rf_model
+user_id: null
+version: 1
