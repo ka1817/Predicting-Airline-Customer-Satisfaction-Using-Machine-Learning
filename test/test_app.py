@@ -2,17 +2,14 @@ import joblib
 import pandas as pd
 import pytest
 
-# Load Model for Direct Testing
 MODEL_PATH = "models/gb_model.pkl"
 model = joblib.load(MODEL_PATH)
 
-# Define feature names
 feature_names = [
     "Gender", "Customer Type", "Age", "Type of Travel", "Class", 
     "Flight Distance", "Delay_Category", "Service_Quality"
 ]
 
-# Expected output labels
 EXPECTED_LABELS = {"neutral or dissatisfied", "satisfied"}
 
 @pytest.fixture(scope="module")
