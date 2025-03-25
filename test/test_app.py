@@ -12,6 +12,9 @@ feature_names = [
     "Flight Distance", "Delay_Category", "Service_Quality"
 ]
 
+# Expected output labels
+EXPECTED_LABELS = {"neutral or dissatisfied", "satisfied"}
+
 @pytest.fixture(scope="module")
 def loaded_model():
     """Load the model once for all tests"""
@@ -24,6 +27,7 @@ def test_model_prediction(loaded_model):
         700, "No Delay", "Average"
     ]], columns=feature_names)
 
-    prediction = loaded_model.predict(new_data)
-    assert prediction in [0, 1]  # Assuming 0: Not Satisfied, 1: Satisfied
-    print(f"Predicted Satisfaction: {prediction[0]}")
+    prediction = loaded_model.predict(new_data)[0]  # Extract single prediction
+
+    assert prediction in EXPECTED_LABELS, f"Unexpected prediction: {prediction}"
+    print(f"Predicted Satisfaction: {prediction}")
