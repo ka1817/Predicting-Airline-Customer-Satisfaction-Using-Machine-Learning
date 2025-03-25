@@ -6,7 +6,7 @@ import uvicorn
 
 app = FastAPI(title="Airlines Customer Satisfaction Prediction API")
 
-model_path = "models/gb_model.pkl"
+model_path = "gb_model.pkl"
 model = joblib.load(model_path)
 
 class CustomerFeatures(BaseModel):
