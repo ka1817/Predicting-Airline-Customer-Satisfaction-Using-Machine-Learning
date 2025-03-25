@@ -2,10 +2,11 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 import joblib
 import pandas as pd
+import uvicorn
 
 app = FastAPI(title="Airlines Customer Satisfaction Prediction API")
 
-model_path = "models/Rfc_model.pkl"
+model_path = "models/gb_model.pkl"
 model = joblib.load(model_path)
 
 class CustomerFeatures(BaseModel):
@@ -23,7 +24,7 @@ def home():
 
 @app.post("/predict")
 def predict_satisfaction(features: CustomerFeatures):
-    data = pd.DataFrame([features.dict()])
+    data = pd.DataFrame([features.model_dump()])
     
     data.rename(columns={
         "Type_of_Travel": "Type of Travel",
@@ -33,4 +34,7 @@ def predict_satisfaction(features: CustomerFeatures):
     
     prediction = model.predict(data)
     
-    return {"prediction": str(prediction[0])}
+    return {"prediction": str(prediction[0])} 
+
+if __name__=="__main__":
+    uvicorn.run(app,host='0.0.0.0',port=4000)

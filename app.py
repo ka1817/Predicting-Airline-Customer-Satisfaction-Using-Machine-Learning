@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import requests
 
-API_URL = "http://127.0.0.1:8000/predict"
+API_URL = "http://backend:4000/predict"
 
 st.set_page_config(page_title="Airline Customer Satisfaction", layout="centered")
 st.title("✈️ Airline Customer Satisfaction Predictor")
@@ -40,7 +40,7 @@ if st.button("Predict Satisfaction"):
     if response.status_code == 200:
         result = response.json()["prediction"]
         st.subheader("Prediction Result")
-        if result == 1:
+        if result == 'satisfied':
             st.success("😊 The customer is **Satisfied**!")
         else:
             st.error("😟 The customer is **Neutral or Dissatisfied**.")

@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/941998266166468447/323ce9e785c04d999e5c410ceaae1081/artifacts
+end_time: 1742881582290
+entry_point_name: ''
+experiment_id: '941998266166468447'
+lifecycle_stage: active
+run_id: 323ce9e785c04d999e5c410ceaae1081
+run_name: funny-moose-705
+run_uuid: 323ce9e785c04d999e5c410ceaae1081
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1742881367626
+status: 3
+tags: []
+user_id: saipr
