@@ -29,7 +29,7 @@ jobs:
       # Step 4: Check Model File
       - name: Check if Model Exists
         run: |
-          if [ ! -f "models/Rfc_model.pkl" ]; then
+          if [ ! -f "models/gb_model.pkl" ]; then
             echo "Model file not found! Ensure it's available before running tests."
             exit 1
           fi

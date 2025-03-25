@@ -1,12 +1,19 @@
 import unittest
+import sys
+import os
 import requests
 import time
 from fastapi.testclient import TestClient
+
+# Ensure the project root is in PYTHONPATH
+sys.path.insert(0, os.path.abspath(os.path.dirname(__file__) + "/.."))
+
 from main import app
 
+# Create a test client
 client = TestClient(app)
 
-BASE_URL = "http://localhost:4000"  
+BASE_URL = "http://localhost:4000"  # Ensure the FastAPI server is running locally before testing
 
 def wait_for_api(timeout=30):
     start_time = time.time()
@@ -17,7 +24,7 @@ def wait_for_api(timeout=30):
                 return True
         except requests.exceptions.ConnectionError:
             pass
-        time.sleep(2)  
+        time.sleep(2)  # Wait and retry
     raise RuntimeError("FastAPI server not available.")
 
 class TestFastAPIApp(unittest.TestCase):
@@ -48,15 +55,15 @@ class TestFastAPIApp(unittest.TestCase):
         invalid_data = {
             "Gender": "Unknown",
             "Customer_Type": "Loyal",
-            "Age": "Thirty",  
+            "Age": "Thirty",  # Invalid age type
             "Type_of_Travel": "Work",
             "Class": "VIP",
-            "Flight_Distance": "Far",  
+            "Flight_Distance": "Far",  # Invalid distance type
             "Delay_Category": "None",
             "Service_Quality": "Excellent"
         }
         response = client.post("/predict", json=invalid_data)
-        self.assertEqual(response.status_code, 422)  
+        self.assertEqual(response.status_code, 422)  # Expecting validation error from FastAPI
 
 if __name__ == "__main__":
     unittest.main()
