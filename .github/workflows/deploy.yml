@@ -34,7 +34,13 @@ jobs:
             exit 1
           fi
 
-      # Step 5: Run Tests
+      # Step 5: Start FastAPI Server in Background
+      - name: Start FastAPI Server
+        run: |
+          uvicorn main:app --host 0.0.0.0 --port 4000 &
+          sleep 5  # Wait for server to start
+
+      # Step 6: Run Tests
       - name: Run Tests
         run: |
           pytest test/
@@ -44,25 +50,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 6: Checkout Repository
+      # Step 7: Checkout Repository
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      # Step 7: Log in to Docker Hub
+      # Step 8: Log in to Docker Hub
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      # Step 8: Build and Push Backend Image
+      # Step 9: Build and Push Backend Image
       - name: Build and Push Backend
         run: |
           docker build -t ${{ secrets.DOCKER_USERNAME }}/airline-backend:latest -f backend.Dockerfile .
           docker push ${{ secrets.DOCKER_USERNAME }}/airline-backend:latest
 
-      # Step 9: Build and Push Frontend Image
+      # Step 10: Build and Push Frontend Image
       - name: Build and Push Frontend
         run: |
           docker build -t ${{ secrets.DOCKER_USERNAME }}/airline-frontend:latest -f frontend.Dockerfile .
           docker push ${{ secrets.DOCKER_USERNAME }}/airline-frontend:latest
+
