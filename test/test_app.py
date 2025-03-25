@@ -1,7 +1,20 @@
 import pytest
 import requests
+import time
 
-BASE_URL = "http://localhost:4000"  # Ensure the FastAPI server is running locally before testing
+BASE_URL = "http://localhost:4000"  
+
+def wait_for_api(timeout=30):
+    start_time = time.time()
+    while time.time() - start_time < timeout:
+        try:
+            response = requests.get(f"{BASE_URL}/")
+            if response.status_code == 200:
+                return True
+        except requests.exceptions.ConnectionError:
+            pass
+        time.sleep(2)  # Wait and retry
+    raise RuntimeError("FastAPI server not available.")
 
 @pytest.fixture
 def sample_data():
@@ -17,6 +30,7 @@ def sample_data():
     }
 
 def test_home():
+    wait_for_api()
     response = requests.get(f"{BASE_URL}/")
     assert response.status_code == 200
     assert response.json() == {"message": "Welcome to the Airlines Customer Satisfaction Prediction API!"}
@@ -31,12 +45,12 @@ def test_invalid_data():
     invalid_data = {
         "Gender": "Unknown",
         "Customer_Type": "Loyal",
-        "Age": "Thirty",  # Invalid age type
+        "Age": "Thirty", 
         "Type_of_Travel": "Work",
         "Class": "VIP",
-        "Flight_Distance": "Far",  # Invalid distance type
+        "Flight_Distance": "Far", 
         "Delay_Category": "None",
         "Service_Quality": "Excellent"
     }
     response = requests.post(f"{BASE_URL}/predict", json=invalid_data)
-    assert response.status_code == 422  # Expecting validation error from FastAPI
+    assert response.status_code == 422 
