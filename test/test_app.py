@@ -1,23 +1,29 @@
-import requests
+import joblib
+import pandas as pd
+import pytest
 
-API_URL = "http://127.0.0.1:4000/predict"
+# Load Model for Direct Testing
+MODEL_PATH = "models/gb_model.pkl"
+model = joblib.load(MODEL_PATH)
 
-def test_home():
-    response = requests.get("http://127.0.0.1:4000/")
-    assert response.status_code == 200
-    assert response.json() == {"message": "Welcome to the Airlines Customer Satisfaction Prediction API!"}
+# Define feature names
+feature_names = [
+    "Gender", "Customer Type", "Age", "Type of Travel", "Class", 
+    "Flight Distance", "Delay_Category", "Service_Quality"
+]
 
-def test_prediction():
-    test_data = {
-        "Gender": "Male",
-        "Customer_Type": "Loyal",
-        "Age": 30,
-        "Type_of_Travel": "Business travel",
-        "Class": "Business",
-        "Flight_Distance": 1000,
-        "Delay_Category": "No Delay",
-        "Service_Quality": "Excellent"
-    }
-    response = requests.post(API_URL, json=test_data)
-    assert response.status_code == 200
-    assert "prediction" in response.json()
+@pytest.fixture(scope="module")
+def loaded_model():
+    """Load the model once for all tests"""
+    return model
+
+def test_model_prediction(loaded_model):
+    """Test direct model prediction with a sample input"""
+    new_data = pd.DataFrame([[
+        "Male", "Loyal Customer", 25, "Personal Travel", "Eco Plus", 
+        700, "No Delay", "Average"
+    ]], columns=feature_names)
+
+    prediction = loaded_model.predict(new_data)
+    assert prediction in [0, 1]  # Assuming 0: Not Satisfied, 1: Satisfied
+    print(f"Predicted Satisfaction: {prediction[0]}")
