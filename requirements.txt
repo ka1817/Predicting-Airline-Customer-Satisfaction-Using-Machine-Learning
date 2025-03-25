@@ -9,4 +9,6 @@ fastapi
 pydantic 
 streamlit 
 uvicorn 
-pytest
+pytest 
+pillow
+httpx  

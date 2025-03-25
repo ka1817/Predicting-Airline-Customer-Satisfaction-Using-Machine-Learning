@@ -1,6 +1,10 @@
-import pytest
+import unittest
 import requests
 import time
+from fastapi.testclient import TestClient
+from main import app
+
+client = TestClient(app)
 
 BASE_URL = "http://localhost:4000"  
 
@@ -13,44 +17,46 @@ def wait_for_api(timeout=30):
                 return True
         except requests.exceptions.ConnectionError:
             pass
-        time.sleep(2)  # Wait and retry
+        time.sleep(2)  
     raise RuntimeError("FastAPI server not available.")
 
-@pytest.fixture
-def sample_data():
-    return {
-        "Gender": "Male",
-        "Customer_Type": "Loyal",
-        "Age": 30,
-        "Type_of_Travel": "Business travel",
-        "Class": "Business",
-        "Flight_Distance": 1500,
-        "Delay_Category": "No Delay",
-        "Service_Quality": "Good"
-    }
+class TestFastAPIApp(unittest.TestCase):
+    
+    def test_home(self):
+        wait_for_api()
+        response = client.get("/")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json(), {"message": "Welcome to the Airlines Customer Satisfaction Prediction API!"})
 
-def test_home():
-    wait_for_api()
-    response = requests.get(f"{BASE_URL}/")
-    assert response.status_code == 200
-    assert response.json() == {"message": "Welcome to the Airlines Customer Satisfaction Prediction API!"}
+    def test_predict_valid_data(self):
+        sample_data = {
+            "Gender": "Male",
+            "Customer_Type": "Loyal",
+            "Age": 30,
+            "Type_of_Travel": "Business travel",
+            "Class": "Business",
+            "Flight_Distance": 1500,
+            "Delay_Category": "No Delay",
+            "Service_Quality": "Good"
+        }
+        response = client.post("/predict", json=sample_data)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("prediction", response.json())
+        self.assertIn(response.json()["prediction"], ["satisfied", "neutral or dissatisfied"])
 
-def test_prediction(sample_data):
-    response = requests.post(f"{BASE_URL}/predict", json=sample_data)
-    assert response.status_code == 200
-    assert "prediction" in response.json()
-    assert response.json()["prediction"] in ["satisfied", "neutral or dissatisfied"]
+    def test_predict_invalid_data(self):
+        invalid_data = {
+            "Gender": "Unknown",
+            "Customer_Type": "Loyal",
+            "Age": "Thirty",  
+            "Type_of_Travel": "Work",
+            "Class": "VIP",
+            "Flight_Distance": "Far",  
+            "Delay_Category": "None",
+            "Service_Quality": "Excellent"
+        }
+        response = client.post("/predict", json=invalid_data)
+        self.assertEqual(response.status_code, 422)  
 
-def test_invalid_data():
-    invalid_data = {
-        "Gender": "Unknown",
-        "Customer_Type": "Loyal",
-        "Age": "Thirty", 
-        "Type_of_Travel": "Work",
-        "Class": "VIP",
-        "Flight_Distance": "Far", 
-        "Delay_Category": "None",
-        "Service_Quality": "Excellent"
-    }
-    response = requests.post(f"{BASE_URL}/predict", json=invalid_data)
-    assert response.status_code == 422 
+if __name__ == "__main__":
+    unittest.main()
